@@ -1,6 +1,6 @@
 // If client is enabled then we use
 #[cfg(feature = "client")]
-mod client;
+pub mod client;
 
 
 // Types of arguments for auth handlers
