@@ -5,21 +5,21 @@ use strum::AsRefStr;
 
 #[derive(Clone, Debug, Serialize, Deserialize, AsRefStr)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
-pub enum LogSeverityKind {
+pub enum SeverityKind {
   Info,
   Warning,
   Error,
   Fatal,
 }
 
-impl TryFrom<u8> for LogSeverityKind {
+impl TryFrom<u8> for SeverityKind {
   type Error = u8;
-  fn try_from(val: u8) -> Result<LogSeverityKind, u8> {
+  fn try_from(val: u8) -> Result<SeverityKind, u8> {
     match val {
-      x if x == LogSeverityKind::Info as u8 => Ok(LogSeverityKind::Info),
-      x if x == LogSeverityKind::Warning as u8 => Ok(LogSeverityKind::Warning),
-      x if x == LogSeverityKind::Error as u8 => Ok(LogSeverityKind::Error),
-      x if x == LogSeverityKind::Fatal as u8 => Ok(LogSeverityKind::Fatal),
+      x if x == SeverityKind::Info as u8 => Ok(SeverityKind::Info),
+      x if x == SeverityKind::Warning as u8 => Ok(SeverityKind::Warning),
+      x if x == SeverityKind::Error as u8 => Ok(SeverityKind::Error),
+      x if x == SeverityKind::Fatal as u8 => Ok(SeverityKind::Fatal),
       x => Err(x),
     }
   }
@@ -27,14 +27,17 @@ impl TryFrom<u8> for LogSeverityKind {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct LogMessageProps {
-  source: String,
-  severity: LogSeverityKind,
-  msg: String,
+pub struct SessionNewProps {
+  pub service_name: String,
+  pub version_major: i64,
+  pub version_minor: i64,
+  pub version_patch: i64,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct HeartbeatProps {
-  source: String,
+pub struct EventNewProps {
+  pub session_id: i64,
+  pub msg: String,
+  pub severity: SeverityKind,
 }
